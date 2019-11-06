@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import './menu-item.styles.scss';
 
-const MenuItem = ({title, imageUrl, size, history, linkUrl, match}) => (
+const MenuItem = ({title, imageUrl, size, linkUrl, history, match}) => (
     <div className={`menu-item ${size}`}
     onClick={() => history.push(`${match.url}${linkUrl}`)}>
 
@@ -18,3 +18,8 @@ const MenuItem = ({title, imageUrl, size, history, linkUrl, match}) => (
 );
 
 export default withRouter(MenuItem);
+
+// A high-order component is essentially a function that takes a component as an argument
+// and returns a modified component with the same name
+// The withRouter component powers up our MenuItem component to have access to things related
+// to our router, like location, maps and history props

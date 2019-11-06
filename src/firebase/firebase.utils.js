@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase/app'; //firebase utility library
 import 'firebase/firestore';
 import 'firebase/auth';
 
@@ -15,6 +15,7 @@ const config = {
 
 firebase.initializeApp(config);
 
+// userAuth passed from auth.onAuthStateChanged in App.js
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
@@ -38,14 +39,15 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
         }
     }
 
-    return userRef;  //DocumentReference
+    return userRef;  //userRef exists in database
 };
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({prompt: 'select_account'});
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+// Setup Google Authentication utility
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+googleAuthProvider.setCustomParameters({prompt: 'select_account'});
+export const signInWithGoogle = () => auth.signInWithPopup(googleAuthProvider);
 
 export default firebase;

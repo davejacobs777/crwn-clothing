@@ -16,4 +16,6 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root'));
 
+// BrowserRouter wraps the App component and passes all the functionality of routing
+
 

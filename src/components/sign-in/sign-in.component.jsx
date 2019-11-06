@@ -6,7 +6,7 @@ import CustomButton from "../custom-button/custom-button.component";
 
 import {auth, signInWithGoogle} from '../../firebase/firebase.utils.js';
 
-class SignIn extends React.Component {
+class SignIn extends Component {
     constructor(props) {
         super(props);
 
@@ -22,7 +22,7 @@ class SignIn extends React.Component {
         const { email, password } = this.state;
 
         try {
-            await auth.signInWithEmailAndPassword(email, password);
+            await auth.signInWithEmailAndPassword(email, password); // note: createUserWithEmailAndPassword
             this.setState({ email: '', password: '' });
         } catch (error) {
             console.log(error);
