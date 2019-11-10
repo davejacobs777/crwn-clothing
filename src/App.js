@@ -4,7 +4,6 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {setCurrentUser} from './redux/user/user.actions';
 
-import './App.css';
 import Homepage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
@@ -12,13 +11,17 @@ import Authentication from "./pages/authentication/authentication.component";
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import CheckoutPage from "./pages/checkout/checkout.component";
 
+import './App.css';
+import {createStructuredSelector} from "reselect";
+import {selectCurrentUser} from "./redux/user/user.selectors";
+
 class App extends Component {
 
     unsubscribeFromAuth = null;
 
     componentDidMount() {
         const {setCurrentUser} = this.props;
-        // userAuth = the user state of the Firebase Authentication
+        // userAuth = userAuth is stored in the Firebase Authentication table
         // onAuthStateChanged = observable
         this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
             if (userAuth) { //null / DocumentReference
@@ -35,7 +38,9 @@ class App extends Component {
                 });
             }
 
-            setCurrentUser(userAuth)
+            setCurrentUser(userAuth);
+            //add ShopData into our Firestore once (lesson 16.6)
+            //addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
         })
     }
 
@@ -64,8 +69,8 @@ class App extends Component {
 // To avoid prop drilling from Homepage to the MenuItem (a child), we use a higher-order component
 // called "withRouter" from react-router-dom - See MenuItem Component
 
-const mapStateToProps = ({user}) => ({
-   currentUser: user.currentUser
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser
 });
 // this.props.currentUser
 
