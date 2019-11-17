@@ -25,6 +25,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 // ownProps is the component's props (the component passed into connect)
 
-export default connect(mapStateToProps)(CollectionPage);
+const CollectionPageWithProps = connect(mapStateToProps)(CollectionPage);
+
+export default CollectionPageWithProps;
 
 // match {isExact: true, params: {collectionId: "hats"}, path: "/shop/:collectionId", url: "/shop/hats"}

@@ -54,8 +54,9 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     return await batch.commit();
 };
 
-export const convertCollectionsSnapshotToMap = (collections) => {
-    const transformedCollection = collections.docs.map(doc => {
+export const convertCollectionsSnapshotToMap = (querySnapshot) => {
+    // docs: QueryDocumentSnapshot[]
+    const transformedCollection = querySnapshot.docs.map(doc => {
         const {title, items} = doc.data();
 
         return {
@@ -72,11 +73,20 @@ export const convertCollectionsSnapshotToMap = (collections) => {
     }, {});
 };
 
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(userAuth => {
+            unsubscribe();
+            resolve(userAuth);
+        }, reject)
+    })
+};
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 // Setup Google Authentication utility
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 googleAuthProvider.setCustomParameters({prompt: 'select_account'});
 export const signInWithGoogle = () => auth.signInWithPopup(googleAuthProvider);
 
